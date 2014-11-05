@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "IIAsyncViewController.h"
 
-@interface ViewController : UIViewController
-
+@interface ViewController : IIAsyncViewController
 
 @end
 
