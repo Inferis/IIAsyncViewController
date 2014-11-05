@@ -6,7 +6,7 @@
 #import "IIAsyncStatusView.h"
 #import "IIAsyncViewInternals.h"
 
-@interface IIAsyncStatusView ()
+@interface IIAsyncStatusView () <IIAsyncMessageViewDelegate>
 
 
 @end
@@ -195,6 +195,7 @@
     if (_messageView) return;
     
     _messageView = [IIAsyncMessageView new];
+    _messageView.delegate = self;
     [self addSubview:_messageView];
     [self didLoadNoDataMessageView];
     [self setNeedsLayout];
@@ -212,8 +213,22 @@
 
 - (void)showNoDataView
 {
-    _messageView.text = @"NO DATA";
+    // get the no data message
+    NSString *message = nil;
+    if ([_asyncView respondsToSelector:@selector(noDataMessage)]) {
+        message = [_asyncView noDataMessage];
+    }
+    message = message ?: NSLocalizedString(@"IIAsyncStatusView.nodata", @"Message to show when no data is present");
+    
+    _messageView.text = message;
     _messageView.alpha = 1;
+
+    // show reload button if supported
+    BOOL canReload = NO;
+    if ([_asyncView respondsToSelector:@selector(canReloadWithNoData)]) {
+        canReload = [_asyncView canReloadWithNoData];
+    }
+    _messageView.showsReloadButton = canReload;
 }
 
 - (void)hideNoDataView
@@ -234,6 +249,7 @@
     if (_errorView) return;
     
     _errorView = [IIAsyncMessageView new];
+    _errorView.delegate = self;
     [self addSubview:_errorView];
     [self didLoadErrorView];
     [self setNeedsLayout];
@@ -253,6 +269,12 @@
 {
     _errorView.text = [error localizedDescription];
     _errorView.alpha = 1;
+    
+    BOOL canReload = NO;
+    if ([_asyncView respondsToSelector:@selector(canReloadAfterError)]) {
+        canReload = [_asyncView canReloadAfterError];
+    }
+    _errorView.showsReloadButton = canReload;
 }
 
 - (void)hideErrorView
@@ -265,7 +287,12 @@
     _errorView.messageLabel.textColor = [UIColor redColor];
 }
 
+#pragma mark - IIAsyncMessageViewDelegate
 
+- (void)asyncMessageViewDidSelectReload:(IIAsyncMessageView *)messageView
+{
+    [self.asyncView.asyncStateDelegate reloadAsyncView];
+}
 
 
 @end

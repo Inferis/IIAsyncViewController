@@ -11,11 +11,13 @@
 
 @required
 - (void)asyncViewDidInvalidateState:(IIAsyncView*)view;
+- (void)reloadAsyncView;
 
 @end
 
 @protocol IIAsyncView <NSObject>
 
+@required
 @property (nonatomic, assign, readonly, getter = isLoading) BOOL loading;
 @property (nonatomic, strong) NSError *error;
 @property (nonatomic, strong) id data;
@@ -25,11 +27,17 @@
 - (void)invalidateState;
 - (void)applyDataAnimated:(BOOL)animated;
 
+@optional
+- (NSString*)noDataMessage;
+- (BOOL)canReloadAfterError;
+- (BOOL)canReloadWithNoData;
+
 @end
 
 
 @protocol IIAsyncStatusView <NSObject>
 
+@required
 @property (nonatomic, strong) UIView<IIAsyncView> *asyncView;
 
 - (void)transitionToLoadingStateAnimated:(BOOL)animated;
