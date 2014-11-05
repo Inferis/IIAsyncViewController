@@ -14,6 +14,7 @@
 @implementation IIAsyncStatusView {
     UIActivityIndicatorView *_spinner;
     UILabel *_messageView;
+    UILabel *_errorView;
 }
 
 @synthesize asyncView = _asyncView;
@@ -50,10 +51,11 @@
 - (void)commonInit
 {
     [self initSpinner];
-    [self initMessageView];
+    [self initNoDataView];
+    [self initErrorView];
 }
 
-#pragma mark - Setters
+#pragma mark - Properties
 
 - (void)setAsyncView:(UIView<IIAsyncView> *)asyncView
 {
@@ -74,7 +76,8 @@
     
     [self layoutSpinner];
     [self layoutAsyncView];
-    [self layoutMessageView];
+    [self layoutNoDataView];
+    [self layoutErrorView];
 }
 
 #pragma mark - State transitioning
@@ -84,7 +87,8 @@
     [self animate:animated transition:^{
         [self startSpinner];
         [self hideAsyncView];
-        [self hideMessageView];
+        [self hideNoDataView];
+        [self hideErrorView];
     }];
 }
 
@@ -93,7 +97,8 @@
     [self animate:animated transition:^{
         [self stopSpinner];
         [self hideAsyncView];
-        [self showMessageView:[error localizedDescription]];
+        [self hideNoDataView];
+        [self showErrorView:error];
     }];
 }
 
@@ -102,7 +107,8 @@
     [self animate:animated transition:^{
         [self stopSpinner];
         [self hideAsyncView];
-        [self showMessageView:@"NO DATA"];
+        [self hideErrorView];
+        [self showNoDataView];
     }];
 }
 
@@ -112,7 +118,8 @@
         [self stopSpinner];
         [self showAsyncView];
         [_asyncView applyDataAnimated:animated];
-        [self hideMessageView];
+        [self hideErrorView];
+        [self hideNoDataView];
     }];
 }
 
@@ -184,39 +191,58 @@
 
 #pragma mark - message view
 
-- (void)initMessageView
+- (void)initNoDataView
 {
     if (_messageView) return;
     
     _messageView = [UILabel new];
+    _messageView.textAlignment = NSTextAlignmentCenter;
     [self addSubview:_messageView];
     [self setNeedsLayout];
 }
 
-- (void)layoutMessageView
+- (void)layoutNoDataView
 {
-    // first find the bounds to work in
-    CGRect bounds = CGRectStandardize(CGRectInset(self.bounds, 5, 5));
-    
-    // then determine the most desirable bounds
-    bounds = (CGRect) { .origin = CGPointZero, .size = [_messageView systemLayoutSizeFittingSize:bounds.size] };
-    
-    // then center it
-    bounds = CGRectCenterInRect(bounds, self.bounds);
-    
-    _messageView.frame = bounds;
+    _messageView.frame = self.bounds;
 }
 
-- (void)showMessageView:(NSString*)message
+- (void)showNoDataView
 {
-    _messageView.text = message;
+    _messageView.text = @"NO DATA";
     _messageView.alpha = 1;
+}
+
+- (void)hideNoDataView
+{
+    _messageView.alpha = 0;
+}
+
+#pragma mark - error view
+
+- (void)initErrorView
+{
+    if (_errorView) return;
+    
+    _errorView = [UILabel new];
+    _errorView.textAlignment = NSTextAlignmentCenter;
+    [self addSubview:_errorView];
     [self setNeedsLayout];
 }
 
-- (void)hideMessageView
+- (void)layoutErrorView
 {
-    _messageView.alpha = 0;
+    _errorView.frame = self.bounds;
+}
+
+- (void)showErrorView:(NSError*)error
+{
+    _errorView.text = [error localizedDescription];
+    _errorView.alpha = 1;
+}
+
+- (void)hideErrorView
+{
+    _errorView.alpha = 0;
 }
 
 
