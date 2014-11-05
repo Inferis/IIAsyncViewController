@@ -13,22 +13,13 @@
 
 @implementation IIAsyncStatusView {
     UIActivityIndicatorView *_spinner;
-    UILabel *_messageView;
-    UILabel *_errorView;
+    IIAsyncMessageView *_messageView;
+    IIAsyncMessageView *_errorView;
 }
 
 @synthesize asyncView = _asyncView;
 
 #pragma mark - initialisation
-
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        [self commonInit];
-    }
-    return self;
-}
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
@@ -53,34 +44,6 @@
     [self initSpinner];
     [self initNoDataView];
     [self initErrorView];
-}
-
-#pragma mark - Properties
-
-- (void)setAsyncView:(UIView<IIAsyncView> *)asyncView
-{
-    if (_asyncView == asyncView) return;
-    
-    [_asyncView removeFromSuperview];
-    _asyncView = asyncView;
-    [self addSubview:_asyncView];
-    self.backgroundColor = asyncView.backgroundColor;
-    [self setNeedsLayout];
-}
-
-- (UIActivityIndicatorView *)loadingIndicatorView
-{
-    return _spinner;
-}
-
-- (UIView *)noDataMessageView
-{
-    return _messageView;
-}
-
-- (UIView *)errorView
-{
-    return _errorView;
 }
 
 #pragma mark - Overrides
@@ -164,6 +127,7 @@
     _spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
     _spinner.hidesWhenStopped = NO;
     [self addSubview:_spinner];
+    [self didLoadLoadingIndicatorView];
     [self setNeedsLayout];
 }
 
@@ -185,14 +149,34 @@
     _spinner.alpha = 0;
 }
 
+- (void)didLoadLoadingIndicatorView
+{
+    // empty
+}
+
+- (UIActivityIndicatorView *)loadingIndicatorView
+{
+    return _spinner;
+}
+
 #pragma mark - Async view
+
+- (void)setAsyncView:(UIView<IIAsyncView> *)asyncView
+{
+    if (_asyncView == asyncView) return;
+    
+    [_asyncView removeFromSuperview];
+    _asyncView = asyncView;
+    [self addSubview:_asyncView];
+    self.backgroundColor = asyncView.backgroundColor;
+    [self setNeedsLayout];
+}
 
 - (void)layoutAsyncView
 {
     // async view should show all
     _asyncView.frame = self.bounds;
 }
-
 
 - (void)showAsyncView
 {
@@ -210,10 +194,15 @@
 {
     if (_messageView) return;
     
-    _messageView = [UILabel new];
-    _messageView.textAlignment = NSTextAlignmentCenter;
+    _messageView = [IIAsyncMessageView new];
     [self addSubview:_messageView];
+    [self didLoadNoDataMessageView];
     [self setNeedsLayout];
+}
+
+- (IIAsyncMessageView *)noDataMessageView
+{
+    return _messageView;
 }
 
 - (void)layoutNoDataView
@@ -232,16 +221,27 @@
     _messageView.alpha = 0;
 }
 
+- (void)didLoadNoDataMessageView
+{
+    _errorView.messageLabel.textColor = [UIColor orangeColor];
+}
+
+
 #pragma mark - error view
 
 - (void)initErrorView
 {
     if (_errorView) return;
     
-    _errorView = [UILabel new];
-    _errorView.textAlignment = NSTextAlignmentCenter;
+    _errorView = [IIAsyncMessageView new];
     [self addSubview:_errorView];
+    [self didLoadErrorView];
     [self setNeedsLayout];
+}
+
+- (IIAsyncMessageView *)errorView
+{
+    return _errorView;
 }
 
 - (void)layoutErrorView
@@ -259,6 +259,13 @@
 {
     _errorView.alpha = 0;
 }
+
+- (void)didLoadErrorView
+{
+    _errorView.messageLabel.textColor = [UIColor redColor];
+}
+
+
 
 
 @end
