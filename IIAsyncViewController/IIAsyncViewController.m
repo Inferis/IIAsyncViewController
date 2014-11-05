@@ -152,27 +152,27 @@ typedef NS_ENUM(NSUInteger, IIAsyncStatusViewState) {
 
 - (void)willTransitionToNewStateAnimated:(BOOL)animated
 {
-    
+    // empty. Can be overridden.
 }
 
 - (void)didTransitionToLoadingStateAnimated:(BOOL)animated
 {
-    
+    // empty. Can be overridden.
 }
 
 - (void)didTransitionToErrorStateAnimated:(BOOL)animated
 {
-    
+    // empty. Can be overridden.
 }
 
 - (void)didTransitionToDataStateAnimated:(BOOL)animated
 {
-    
+    // empty. Can be overridden.
 }
 
 - (void)didTransitionToNoDataStateAnimated:(BOOL)animated
 {
-    
+    // empty. Can be overridden.
 }
 
 
