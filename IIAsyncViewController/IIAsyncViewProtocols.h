@@ -23,6 +23,7 @@
 
 - (void)reset;
 - (void)invalidateState;
+- (void)applyDataAnimated:(BOOL)animated;
 
 @end
 
@@ -31,6 +32,9 @@
 
 @property (nonatomic, strong) UIView<IIAsyncView> *asyncView;
 
-
+- (void)transitionToLoadingStateAnimated:(BOOL)animated;
+- (void)transitionToErrorState:(NSError*)error animated:(BOOL)animated;
+- (void)transitionToNoDataStateAnimated:(BOOL)animated;
+- (void)transitionToDataStateAnimated:(BOOL)animated;
 
 @end

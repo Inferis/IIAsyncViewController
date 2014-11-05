@@ -6,13 +6,33 @@
 #import "IIAsyncViewController.h"
 #import "IIAsyncStatusView.h"
 
-@implementation IIAsyncViewController
+typedef NS_ENUM(NSUInteger, IIAsyncStatusViewState) {
+    IIAsyncStatusLoading = 0,
+    IIAsyncStatusError = 1,
+    IIAsyncStatusNoData = 2,
+    IIAsyncStatusData = 255
+};
+
+
+@interface IIAsyncViewController () <IIAsyncViewDelegate>
+
+@end
+
+
+@implementation IIAsyncViewController {
+    IIAsyncStatusViewState _currentState;
+}
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-    
     [self wrapWithStatusView];
+    
+    // call regular viewDidLoad
+    [super viewDidLoad];
+
+    // force an update of the state to loading
+    [self updateState:YES];
+
     [self requestAsyncData];
 }
 
@@ -31,6 +51,7 @@
     // don't wrap if there's a status view already
     if (self.statusView) return;
     
+
     // get async view. This is the default view when first wrapping.
     UIView<IIAsyncView> *asyncView = (UIView<IIAsyncView>*)self.view;
     
@@ -39,6 +60,7 @@
     NSAssert([statusView conformsToProtocol:@protocol(IIAsyncStatusView)], @"[%@ loadStatusView] should provide a view confirming to IIAsyncStatusView.", self.class);
     statusView.frame = asyncView.frame;
     statusView.asyncView = asyncView;
+    asyncView.asyncStateDelegate = self;
     
     // make main view the wrapping view
     [super setView:statusView];
@@ -53,6 +75,60 @@
 {
     return [IIAsyncStatusView new];
 }
+
+#pragma mark - Async View delegate
+
+- (void)asyncViewDidInvalidateState:(IIAsyncView *)view
+{
+    [self updateState:NO];
+}
+
+#pragma mark - State management
+
+- (void)updateState:(BOOL)forcedUpdate
+{
+    IIAsyncStatusViewState newState = [self determineState];
+    BOOL shouldUpdate = forcedUpdate || newState != _currentState;
+    if (!shouldUpdate) return;
+    
+    switch (newState) {
+        case IIAsyncStatusLoading:
+            [self.statusView transitionToLoadingStateAnimated:!forcedUpdate];
+            break;
+
+        case IIAsyncStatusError:
+            [self.statusView transitionToErrorState:self.asyncView.error animated:!forcedUpdate];
+            break;
+
+        case IIAsyncStatusData:
+            [self.statusView transitionToDataStateAnimated:!forcedUpdate];
+            break;
+
+        case IIAsyncStatusNoData:
+        default:
+            [self.statusView transitionToNoDataStateAnimated:!forcedUpdate];
+            break;
+    }
+    
+}
+
+- (IIAsyncStatusViewState)determineState
+{
+    // determine the new state
+    if (!self.asyncView || ([self.asyncView respondsToSelector:@selector(isLoading)] && [self.asyncView isLoading])) {
+        return IIAsyncStatusLoading;
+    }
+    else if ([self.asyncView respondsToSelector:@selector(error)] && self.asyncView.error) {
+        return IIAsyncStatusError;
+    }
+    else if (![self.asyncView respondsToSelector:@selector(data)] || self.asyncView.data) {
+        return IIAsyncStatusData;
+    }
+    else {
+        return IIAsyncStatusNoData;
+    }
+}
+
 
 
 @end

@@ -4,73 +4,180 @@
 //
 
 #import "IIAsyncStatusView.h"
+#import "IIAsyncViewInternals.h"
 
-typedef NS_ENUM(NSUInteger, IIAsyncStatusViewState) {
-    IIAsyncStatusLoading = 0,
-    IIAsyncStatusError = 1,
-    IIAsyncStatusNoData = 2,
-    IIAsyncStatusData = 255
-};
-
-@interface IIAsyncStatusView () <IIAsyncViewDelegate>
+@interface IIAsyncStatusView ()
 
 
 @end
 
-@implementation IIAsyncStatusView
+@implementation IIAsyncStatusView {
+    UIActivityIndicatorView *_spinner;
+}
 
 @synthesize asyncView = _asyncView;
+
+#pragma mark - initialisation
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [self commonInit];
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        [self commonInit];
+    }
+    return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self commonInit];
+    }
+    return self;
+}
+
+- (void)commonInit
+{
+    [self initSpinner];
+}
+
+#pragma mark - Setters
+
+- (void)setAsyncView:(UIView<IIAsyncView> *)asyncView
+{
+    if (_asyncView == asyncView) return;
+    
+    [_asyncView removeFromSuperview];
+    _asyncView = asyncView;
+    [self addSubview:_asyncView];
+    self.backgroundColor = asyncView.backgroundColor;
+    [self setNeedsLayout];
+}
 
 #pragma mark - Overrides
 
 - (void)layoutSubviews
 {
     [super layoutSubviews];
+    
+    // center spinner
+    _spinner.frame = CGRectCenterInRect(_spinner.frame, self.bounds);
+    
+    // async view should show all
     _asyncView.frame = self.bounds;
 }
 
-#pragma mark - Property accessors
+#pragma mark - State transitioning
 
-- (void)setAsyncView:(UIView<IIAsyncView> *)asyncView
+- (void)transitionToLoadingStateAnimated:(BOOL)animated
 {
-    if ([asyncView isEqual:_asyncView]) return;
-    
-    _asyncView.asyncStateDelegate = nil;
-    _asyncView = asyncView;
-    _asyncView.asyncStateDelegate = self;
+    [self animate:animated transition:^{
+        [self startSpinner];
+        [self hideAsyncView];
+        [self hideMessageView];
+    }];
 }
 
-#pragma mark - Async View delegate
-
-- (void)asyncViewDidInvalidateState:(IIAsyncView *)view
+- (void)transitionToErrorState:(NSError *)error animated:(BOOL)animated
 {
-    [self updateState];
+    [self animate:animated transition:^{
+        [self stopSpinner];
+        [self hideAsyncView];
+        [self showMessageView:[error localizedDescription]];
+    }];
 }
 
-#pragma mark - State management
-
-- (void)updateState
+- (void)transitionToNoDataStateAnimated:(BOOL)animated
 {
-    IIAsyncStatusViewState newState;
-    
-    // safeguard: make sure the asyncView has self as superview
-    if (_asyncView && _asyncView.superview != self) {
-        [self setAsyncView:nil];
-    }
-    
-    // determine the new state
-    if (!_asyncView || ([_asyncView respondsToSelector:@selector(isLoading)] && [_asyncView isLoading])) {
-        newState = IIAsyncStatusLoading;
-    }
-    else if ([_asyncView respondsToSelector:@selector(error)] && _asyncView.error) {
-        newState = IIAsyncStatusError;
-    }
-    else if (![_asyncView respondsToSelector:@selector(data)] || _asyncView.data) {
-        newState = IIAsyncStatusData;
-    }
-    else {
-        newState = IIAsyncStatusNoData;
-    }
+    [self animate:animated transition:^{
+        [self stopSpinner];
+        [self hideAsyncView];
+        [self showMessageView:@"NO DATA"];
+    }];
 }
+
+- (void)transitionToDataStateAnimated:(BOOL)animated
+{
+    [self animate:animated transition:^{
+        [self stopSpinner];
+        [self showAsyncView];
+        [_asyncView applyDataAnimated:animated];
+        [self hideMessageView];
+    }];
+}
+
+- (void)animate:(BOOL)animated transition:(void(^)(void))animations
+{
+    dispatch_sync_main(^{
+        if (animated) {
+            [UIView animateWithDuration:0.25 animations:^{
+                animations();
+            }];
+        }
+        else {
+            [UIView performWithoutAnimation:^{
+                animations();
+            }];
+        }
+    });
+}
+
+#pragma mark - Spinner
+
+- (void)initSpinner
+{
+    if (_spinner) return;
+    
+    _spinner = [UIActivityIndicatorView new];
+    _spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+    _spinner.hidesWhenStopped = NO;
+    [self addSubview:_spinner];
+    [self setNeedsLayout];
+}
+
+- (void)startSpinner
+{
+    [_spinner startAnimating];
+    _spinner.alpha = 1;
+}
+
+- (void)stopSpinner
+{
+    [_spinner stopAnimating];
+    _spinner.alpha = 0;
+}
+
+#pragma mark - Async view
+
+- (void)showAsyncView
+{
+    _asyncView.alpha = 1;
+}
+
+- (void)hideAsyncView
+{
+    _asyncView.alpha = 0;
+}
+
+#pragma mark - message view
+
+- (void)showMessageView:(NSString*)error
+{
+}
+
+- (void)hideMessageView
+{
+}
+
 
 @end

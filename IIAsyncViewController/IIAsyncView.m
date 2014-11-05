@@ -47,6 +47,11 @@
     [self.asyncStateDelegate asyncViewDidInvalidateState:self];
 }
 
+- (void)applyDataAnimated:(BOOL)animated
+{
+    // should be overridden
+}
+
 - (BOOL)isLoading
 {
     return !self.error && !_dataWasSet;
