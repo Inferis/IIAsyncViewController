@@ -16,6 +16,16 @@
     [self requestAsyncData];
 }
 
+- (UIView<IIAsyncStatusView> *)statusView
+{
+    return [super.view conformsToProtocol:@protocol(IIAsyncStatusView)] ? (UIView<IIAsyncStatusView> *)super.view : nil;
+}
+
+- (UIView<IIAsyncView> *)asyncView
+{
+    return (UIView<IIAsyncView> *)(self.statusView.asyncView ?: self.view);
+}
+
 - (void)wrapWithStatusView
 {
     // don't wrap if there's a status view already
