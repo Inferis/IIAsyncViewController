@@ -13,6 +13,7 @@
 
 @implementation IIAsyncStatusView {
     UIActivityIndicatorView *_spinner;
+    UILabel *_messageView;
 }
 
 @synthesize asyncView = _asyncView;
@@ -49,6 +50,7 @@
 - (void)commonInit
 {
     [self initSpinner];
+    [self initMessageView];
 }
 
 #pragma mark - Setters
@@ -70,11 +72,9 @@
 {
     [super layoutSubviews];
     
-    // center spinner
-    _spinner.frame = CGRectCenterInRect(_spinner.frame, self.bounds);
-    
-    // async view should show all
-    _asyncView.frame = self.bounds;
+    [self layoutSpinner];
+    [self layoutAsyncView];
+    [self layoutMessageView];
 }
 
 #pragma mark - State transitioning
@@ -145,6 +145,12 @@
     [self setNeedsLayout];
 }
 
+- (void)layoutSpinner
+{
+    // center spinner
+    _spinner.frame = CGRectCenterInRect(_spinner.frame, self.bounds);
+}
+
 - (void)startSpinner
 {
     [_spinner startAnimating];
@@ -159,6 +165,13 @@
 
 #pragma mark - Async view
 
+- (void)layoutAsyncView
+{
+    // async view should show all
+    _asyncView.frame = self.bounds;
+}
+
+
 - (void)showAsyncView
 {
     _asyncView.alpha = 1;
@@ -171,12 +184,39 @@
 
 #pragma mark - message view
 
-- (void)showMessageView:(NSString*)error
+- (void)initMessageView
 {
+    if (_messageView) return;
+    
+    _messageView = [UILabel new];
+    [self addSubview:_messageView];
+    [self setNeedsLayout];
+}
+
+- (void)layoutMessageView
+{
+    // first find the bounds to work in
+    CGRect bounds = CGRectStandardize(CGRectInset(self.bounds, 5, 5));
+    
+    // then determine the most desirable bounds
+    bounds = (CGRect) { .origin = CGPointZero, .size = [_messageView systemLayoutSizeFittingSize:bounds.size] };
+    
+    // then center it
+    bounds = CGRectCenterInRect(bounds, self.bounds);
+    
+    _messageView.frame = bounds;
+}
+
+- (void)showMessageView:(NSString*)message
+{
+    _messageView.text = message;
+    _messageView.alpha = 1;
+    [self setNeedsLayout];
 }
 
 - (void)hideMessageView
 {
+    _messageView.alpha = 0;
 }
 
 
