@@ -33,7 +33,7 @@ typedef NS_ENUM(NSUInteger, IIAsyncStatusViewState) {
     // force an update of the state to loading
     [self updateState:YES];
 
-    [self requestAsyncData];
+    [self performAsyncDataRequest];
 }
 
 - (UIView<IIAsyncStatusView> *)statusView
@@ -66,7 +66,7 @@ typedef NS_ENUM(NSUInteger, IIAsyncStatusViewState) {
     [super setView:statusView];
 }
 
-- (void)requestAsyncData
+- (void)performAsyncDataRequest
 {
     // default: empty. Override this.
 }
@@ -91,7 +91,7 @@ typedef NS_ENUM(NSUInteger, IIAsyncStatusViewState) {
 - (void)reloadAsyncData
 {
     [self.asyncView reset];
-    [self requestAsyncData];
+    [self performAsyncDataRequest];
 }
 
 #pragma mark - State management
@@ -103,22 +103,29 @@ typedef NS_ENUM(NSUInteger, IIAsyncStatusViewState) {
     _currentState = newState;
     if (!shouldUpdate) return;
     
+    BOOL animated = !forcedUpdate;
+    [self willTransitionToNewStateAnimated:animated];
+    
     switch (newState) {
         case IIAsyncStatusLoading:
-            [self.statusView transitionToLoadingStateAnimated:!forcedUpdate];
+            [self.statusView transitionToLoadingStateAnimated:animated];
+            [self didTransitionToLoadingStateAnimated:animated];
             break;
 
         case IIAsyncStatusError:
-            [self.statusView transitionToErrorState:self.asyncView.error animated:!forcedUpdate];
+            [self.statusView transitionToErrorState:self.asyncView.error animated:animated];
+            [self didTransitionToErrorStateAnimated:animated];
             break;
 
         case IIAsyncStatusData:
-            [self.statusView transitionToDataStateAnimated:!forcedUpdate];
+            [self.statusView transitionToDataStateAnimated:animated];
+            [self didTransitionToDataStateAnimated:animated];
             break;
 
         case IIAsyncStatusNoData:
         default:
-            [self.statusView transitionToNoDataStateAnimated:!forcedUpdate];
+            [self.statusView transitionToNoDataStateAnimated:animated];
+            [self didTransitionToNoDataStateAnimated:animated];
             break;
     }
     
@@ -141,6 +148,32 @@ typedef NS_ENUM(NSUInteger, IIAsyncStatusViewState) {
     }
 }
 
+#pragma mark - Subclassing hooks
+
+- (void)willTransitionToNewStateAnimated:(BOOL)animated
+{
+    
+}
+
+- (void)didTransitionToLoadingStateAnimated:(BOOL)animated
+{
+    
+}
+
+- (void)didTransitionToErrorStateAnimated:(BOOL)animated
+{
+    
+}
+
+- (void)didTransitionToDataStateAnimated:(BOOL)animated
+{
+    
+}
+
+- (void)didTransitionToNoDataStateAnimated:(BOOL)animated
+{
+    
+}
 
 
 @end
