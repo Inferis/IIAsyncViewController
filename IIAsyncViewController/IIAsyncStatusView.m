@@ -51,6 +51,26 @@ typedef NS_ENUM(NSUInteger, IIAsyncStatusViewState) {
 
 - (void)updateState
 {
+    IIAsyncStatusViewState newState;
+    
+    // safeguard: make sure the asyncView has self as superview
+    if (_asyncView && _asyncView.superview != self) {
+        [self setAsyncView:nil];
+    }
+    
+    // determine the new state
+    if (!_asyncView || ([_asyncView respondsToSelector:@selector(isLoading)] && [_asyncView isLoading])) {
+        newState = IIAsyncStatusLoading;
+    }
+    else if ([_asyncView respondsToSelector:@selector(error)] && _asyncView.error) {
+        newState = IIAsyncStatusError;
+    }
+    else if (![_asyncView respondsToSelector:@selector(data)] || _asyncView.data) {
+        newState = IIAsyncStatusData;
+    }
+    else {
+        newState = IIAsyncStatusNoData;
+    }
 }
 
 @end
