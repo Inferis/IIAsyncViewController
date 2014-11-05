@@ -21,4 +21,6 @@
 
 - (void)requestAsyncData;
 
+- (void)reloadAsyncData;
+
 @end

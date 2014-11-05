@@ -83,12 +83,24 @@ typedef NS_ENUM(NSUInteger, IIAsyncStatusViewState) {
     [self updateState:NO];
 }
 
+- (void)reloadAsyncView
+{
+    [self reloadAsyncData];
+}
+
+- (void)reloadAsyncData
+{
+    [self.asyncView reset];
+    [self requestAsyncData];
+}
+
 #pragma mark - State management
 
 - (void)updateState:(BOOL)forcedUpdate
 {
     IIAsyncStatusViewState newState = [self determineState];
     BOOL shouldUpdate = forcedUpdate || newState != _currentState;
+    _currentState = newState;
     if (!shouldUpdate) return;
     
     switch (newState) {
