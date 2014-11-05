@@ -19,6 +19,10 @@ Forthcoming. I've written this on the plane from SF to Europe, and now I'm tired
 
 Classes and protocols are documented enough to get you started, I think.
 
+## Tests
+
+They aren't there. Will be, but not now. Too tired, my friend.
+
 ## Cocoapods
 
 Support coming.
