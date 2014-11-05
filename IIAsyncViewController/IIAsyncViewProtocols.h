@@ -5,7 +5,24 @@
 
 #import <UIKit/UIKit.h>
 
+@class IIAsyncView;
+
+@protocol IIAsyncViewDelegate <NSObject>
+
+@required
+- (void)asyncViewDidInvalidateState:(IIAsyncView*)view;
+
+@end
+
 @protocol IIAsyncView <NSObject>
+
+@property (nonatomic, assign, readonly, getter = isLoading) BOOL loading;
+@property (nonatomic, strong) NSError *error;
+@property (nonatomic, strong) id data;
+@property (nonatomic, weak) id<IIAsyncViewDelegate> asyncStateDelegate;
+
+- (void)reset;
+- (void)invalidateState;
 
 @end
 
@@ -13,6 +30,7 @@
 @protocol IIAsyncStatusView <NSObject>
 
 @property (nonatomic, strong) UIView<IIAsyncView> *asyncView;
+
 
 
 @end

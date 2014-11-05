@@ -5,7 +5,8 @@
 
 #import <UIKit/UIKit.h>
 #import "IIAsyncView.h"
+#import "IIAsyncViewProtocols.h"
 
-@interface IIAsyncView : UIView
+@interface IIAsyncView : UIView<IIAsyncView>
 
 @end

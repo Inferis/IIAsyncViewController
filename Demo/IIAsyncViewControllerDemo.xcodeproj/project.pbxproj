@@ -50,6 +50,7 @@
 		E29C22681A09B60C0049A1C0 /* IIAsyncView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIAsyncView.m; sourceTree = "<group>"; };
 		E29C226A1A09B65B0049A1C0 /* IIAsyncStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIAsyncStatusView.h; sourceTree = "<group>"; };
 		E29C226B1A09B65B0049A1C0 /* IIAsyncStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIAsyncStatusView.m; sourceTree = "<group>"; };
+		E29C226E1A09BD4A0049A1C0 /* IIAsyncViewInternals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIAsyncViewInternals.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +149,7 @@
 				E29C22681A09B60C0049A1C0 /* IIAsyncView.m */,
 				E29C226A1A09B65B0049A1C0 /* IIAsyncStatusView.h */,
 				E29C226B1A09B65B0049A1C0 /* IIAsyncStatusView.m */,
+				E29C226E1A09BD4A0049A1C0 /* IIAsyncViewInternals.h */,
 			);
 			name = IIAsyncViewController;
 			path = ../../IIAsyncViewController;
