@@ -36,6 +36,7 @@
     
     // now create the status view
     UIView<IIAsyncStatusView> *statusView = [self loadStatusView];
+    NSAssert([statusView conformsToProtocol:@protocol(IIAsyncStatusView)], @"[%@ loadStatusView] should provide a view confirming to IIAsyncStatusView.", self.class);
     statusView.frame = asyncView.frame;
     statusView.asyncView = asyncView;
     
