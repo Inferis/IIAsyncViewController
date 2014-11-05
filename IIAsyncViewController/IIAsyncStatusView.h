@@ -8,4 +8,8 @@
 
 @interface IIAsyncStatusView : UIView<IIAsyncStatusView>
 
+@property (nonatomic, strong, readonly) UIActivityIndicatorView *loadingIndicatorView;
+@property (nonatomic, strong, readonly) UIView *errorView;
+@property (nonatomic, strong, readonly) UIView *noDataMessageView;
+
 @end

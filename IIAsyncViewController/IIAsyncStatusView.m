@@ -68,6 +68,21 @@
     [self setNeedsLayout];
 }
 
+- (UIActivityIndicatorView *)loadingIndicatorView
+{
+    return _spinner;
+}
+
+- (UIView *)noDataMessageView
+{
+    return _messageView;
+}
+
+- (UIView *)errorView
+{
+    return _errorView;
+}
+
 #pragma mark - Overrides
 
 - (void)layoutSubviews
