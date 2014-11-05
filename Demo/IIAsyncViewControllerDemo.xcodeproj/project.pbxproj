@@ -15,7 +15,8 @@
 		E29C22481A09B0AD0049A1C0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E29C22461A09B0AD0049A1C0 /* LaunchScreen.xib */; };
 		E29C22541A09B0AD0049A1C0 /* IIAsyncViewControllerDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E29C22531A09B0AD0049A1C0 /* IIAsyncViewControllerDemoTests.m */; };
 		E29C22611A09B10E0049A1C0 /* IIAsyncViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E29C22601A09B10E0049A1C0 /* IIAsyncViewController.m */; };
-		E29C22641A09B1440049A1C0 /* IIAsyncView.m in Sources */ = {isa = PBXBuildFile; fileRef = E29C22631A09B1440049A1C0 /* IIAsyncView.m */; };
+		E29C22691A09B60C0049A1C0 /* IIAsyncView.m in Sources */ = {isa = PBXBuildFile; fileRef = E29C22681A09B60C0049A1C0 /* IIAsyncView.m */; };
+		E29C226C1A09B65B0049A1C0 /* IIAsyncStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = E29C226B1A09B65B0049A1C0 /* IIAsyncStatusView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,8 +45,11 @@
 		E29C22531A09B0AD0049A1C0 /* IIAsyncViewControllerDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IIAsyncViewControllerDemoTests.m; sourceTree = "<group>"; };
 		E29C225F1A09B10E0049A1C0 /* IIAsyncViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIAsyncViewController.h; sourceTree = "<group>"; };
 		E29C22601A09B10E0049A1C0 /* IIAsyncViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIAsyncViewController.m; sourceTree = "<group>"; };
-		E29C22621A09B1440049A1C0 /* IIAsyncView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIAsyncView.h; sourceTree = "<group>"; };
-		E29C22631A09B1440049A1C0 /* IIAsyncView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIAsyncView.m; sourceTree = "<group>"; };
+		E29C22661A09B60C0049A1C0 /* IIAsyncViewProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIAsyncViewProtocols.h; sourceTree = "<group>"; };
+		E29C22671A09B60C0049A1C0 /* IIAsyncView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIAsyncView.h; sourceTree = "<group>"; };
+		E29C22681A09B60C0049A1C0 /* IIAsyncView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIAsyncView.m; sourceTree = "<group>"; };
+		E29C226A1A09B65B0049A1C0 /* IIAsyncStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIAsyncStatusView.h; sourceTree = "<group>"; };
+		E29C226B1A09B65B0049A1C0 /* IIAsyncStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIAsyncStatusView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,8 +143,11 @@
 			children = (
 				E29C225F1A09B10E0049A1C0 /* IIAsyncViewController.h */,
 				E29C22601A09B10E0049A1C0 /* IIAsyncViewController.m */,
-				E29C22621A09B1440049A1C0 /* IIAsyncView.h */,
-				E29C22631A09B1440049A1C0 /* IIAsyncView.m */,
+				E29C22661A09B60C0049A1C0 /* IIAsyncViewProtocols.h */,
+				E29C22671A09B60C0049A1C0 /* IIAsyncView.h */,
+				E29C22681A09B60C0049A1C0 /* IIAsyncView.m */,
+				E29C226A1A09B65B0049A1C0 /* IIAsyncStatusView.h */,
+				E29C226B1A09B65B0049A1C0 /* IIAsyncStatusView.m */,
 			);
 			name = IIAsyncViewController;
 			path = ../../IIAsyncViewController;
@@ -248,9 +255,10 @@
 			files = (
 				E29C22401A09B0AD0049A1C0 /* ViewController.m in Sources */,
 				E29C22611A09B10E0049A1C0 /* IIAsyncViewController.m in Sources */,
-				E29C22641A09B1440049A1C0 /* IIAsyncView.m in Sources */,
 				E29C223D1A09B0AD0049A1C0 /* AppDelegate.m in Sources */,
 				E29C223A1A09B0AD0049A1C0 /* main.m in Sources */,
+				E29C22691A09B60C0049A1C0 /* IIAsyncView.m in Sources */,
+				E29C226C1A09B65B0049A1C0 /* IIAsyncStatusView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
