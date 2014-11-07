@@ -25,7 +25,13 @@ They aren't there. Will be, but not now. Too tired, my friend.
 
 ## Cocoapods
 
-Support coming.
+IIAsyncViewController is available as a CocoaPod. Add the following line to your Podfile:
+
+```
+pod 'IIAsyncViewController'
+```
+
+And you're done.
 
 ## License
 
