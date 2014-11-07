@@ -36,6 +36,7 @@
 		E251AA2E1A0A33FA00BF629E /* DemoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemoView.m; sourceTree = "<group>"; };
 		E251AA301A0A40DA00BF629E /* IIAsyncMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIAsyncMessageView.h; sourceTree = "<group>"; };
 		E251AA311A0A40DA00BF629E /* IIAsyncMessageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIAsyncMessageView.m; sourceTree = "<group>"; };
+		E251AA341A0CD49E00BF629E /* IIAsyncViewInternals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIAsyncViewInternals.h; sourceTree = "<group>"; };
 		E29C22341A09B0AD0049A1C0 /* IIAsyncViewControllerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IIAsyncViewControllerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E29C22381A09B0AD0049A1C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E29C22391A09B0AD0049A1C0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -56,7 +57,6 @@
 		E29C22681A09B60C0049A1C0 /* IIAsyncView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIAsyncView.m; sourceTree = "<group>"; };
 		E29C226A1A09B65B0049A1C0 /* IIAsyncStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIAsyncStatusView.h; sourceTree = "<group>"; };
 		E29C226B1A09B65B0049A1C0 /* IIAsyncStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIAsyncStatusView.m; sourceTree = "<group>"; };
-		E29C226E1A09BD4A0049A1C0 /* IIAsyncViewInternals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIAsyncViewInternals.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +77,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E251AA331A0CD49E00BF629E /* Private */ = {
+			isa = PBXGroup;
+			children = (
+				E251AA341A0CD49E00BF629E /* IIAsyncViewInternals.h */,
+			);
+			path = Private;
+			sourceTree = "<group>";
+		};
 		E29C222B1A09B0AD0049A1C0 = {
 			isa = PBXGroup;
 			children = (
@@ -150,6 +158,7 @@
 		E29C225E1A09B0FC0049A1C0 /* IIAsyncViewController */ = {
 			isa = PBXGroup;
 			children = (
+				E251AA331A0CD49E00BF629E /* Private */,
 				E29C225F1A09B10E0049A1C0 /* IIAsyncViewController.h */,
 				E29C22601A09B10E0049A1C0 /* IIAsyncViewController.m */,
 				E29C22661A09B60C0049A1C0 /* IIAsyncViewProtocols.h */,
@@ -157,7 +166,6 @@
 				E29C22681A09B60C0049A1C0 /* IIAsyncView.m */,
 				E29C226A1A09B65B0049A1C0 /* IIAsyncStatusView.h */,
 				E29C226B1A09B65B0049A1C0 /* IIAsyncStatusView.m */,
-				E29C226E1A09BD4A0049A1C0 /* IIAsyncViewInternals.h */,
 				E251AA301A0A40DA00BF629E /* IIAsyncMessageView.h */,
 				E251AA311A0A40DA00BF629E /* IIAsyncMessageView.m */,
 			);
