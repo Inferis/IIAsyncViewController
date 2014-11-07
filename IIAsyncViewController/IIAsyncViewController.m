@@ -54,6 +54,7 @@ typedef NS_ENUM(NSUInteger, IIAsyncStatusViewState) {
 
     // get async view. This is the default view when first wrapping.
     UIView<IIAsyncView> *asyncView = (UIView<IIAsyncView>*)self.view;
+    NSAssert([asyncView conformsToProtocol:@protocol(IIAsyncView)], @"[%@ view] should provide a view confirming to IIAsyncView (currently: %@).", self.class, self.view.class);
     
     // now create the status view
     UIView<IIAsyncStatusView> *statusView = [self loadStatusView];
