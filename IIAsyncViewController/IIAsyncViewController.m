@@ -5,6 +5,7 @@
 
 #import "IIAsyncViewController.h"
 #import "IIAsyncStatusView.h"
+#import "IIAsyncViewInternals.h"
 
 typedef NS_ENUM(NSUInteger, IIAsyncStatusViewState) {
     IIAsyncStatusLoading = 0,
@@ -14,7 +15,7 @@ typedef NS_ENUM(NSUInteger, IIAsyncStatusViewState) {
 };
 
 
-@interface IIAsyncViewController () <IIAsyncViewDelegate>
+@interface IIAsyncViewController () <IIAsyncDataDelegate>
 
 @end
 
@@ -61,7 +62,7 @@ typedef NS_ENUM(NSUInteger, IIAsyncStatusViewState) {
     NSAssert([statusView conformsToProtocol:@protocol(IIAsyncStatusView)], @"[%@ loadStatusView] should provide a view confirming to IIAsyncStatusView.", self.class);
     statusView.frame = asyncView.frame;
     statusView.asyncView = asyncView;
-    asyncView.asyncStateDelegate = self;
+    asyncView.data.asyncDataDelegate = self;
     
     // make main view the wrapping view
     [super setView:statusView];
@@ -79,19 +80,14 @@ typedef NS_ENUM(NSUInteger, IIAsyncStatusViewState) {
 
 #pragma mark - Async View delegate
 
-- (void)asyncViewDidInvalidateState:(IIAsyncView *)view
+- (void)asyncDataDidInvalidateState:(id<IIAsyncData>)data
 {
     [self updateState:NO];
 }
 
-- (void)reloadAsyncView
-{
-    [self reloadAsyncData];
-}
-
 - (void)reloadAsyncData
 {
-    [self.asyncView reset];
+    [self.asyncView.data reset];
     [self performAsyncDataRequest];
 }
 
@@ -108,26 +104,38 @@ typedef NS_ENUM(NSUInteger, IIAsyncStatusViewState) {
     [self willTransitionToNewStateAnimated:animated];
     
     switch (newState) {
-        case IIAsyncStatusLoading:
-            [self.statusView transitionToLoadingStateAnimated:animated];
-            [self didTransitionToLoadingStateAnimated:animated];
+        case IIAsyncStatusLoading: {
+            dispatch_sync_main(^{
+                [self.statusView transitionToLoadingStateAnimated:animated];
+                [self didTransitionToLoadingStateAnimated:animated];
+            });
             break;
+        }
 
-        case IIAsyncStatusError:
-            [self.statusView transitionToErrorState:self.asyncView.error animated:animated];
-            [self didTransitionToErrorStateAnimated:animated];
+        case IIAsyncStatusError: {
+            dispatch_sync_main(^{
+                [self.statusView transitionToErrorState:self.asyncView.data.error animated:animated];
+                [self didTransitionToErrorStateAnimated:animated];
+            });
             break;
+        }
 
-        case IIAsyncStatusData:
-            [self.statusView transitionToDataStateAnimated:animated];
-            [self didTransitionToDataStateAnimated:animated];
+        case IIAsyncStatusData: {
+            dispatch_sync_main(^{
+                [self.statusView transitionToDataStateAnimated:animated];
+                [self didTransitionToDataStateAnimated:animated];
+            });
             break;
+        }
 
         case IIAsyncStatusNoData:
-        default:
-            [self.statusView transitionToNoDataStateAnimated:animated];
-            [self didTransitionToNoDataStateAnimated:animated];
+        default: {
+            dispatch_sync_main(^{
+                [self.statusView transitionToNoDataStateAnimated:animated];
+                [self didTransitionToNoDataStateAnimated:animated];
+            });
             break;
+        }
     }
     
 }
@@ -135,13 +143,13 @@ typedef NS_ENUM(NSUInteger, IIAsyncStatusViewState) {
 - (IIAsyncStatusViewState)determineState
 {
     // determine the new state
-    if (!self.asyncView || ([self.asyncView respondsToSelector:@selector(isLoading)] && [self.asyncView isLoading])) {
+    if (!self.asyncView || [self.asyncView.data isLoading]) {
         return IIAsyncStatusLoading;
     }
-    else if ([self.asyncView respondsToSelector:@selector(error)] && self.asyncView.error) {
+    else if (self.asyncView.data.error) {
         return IIAsyncStatusError;
     }
-    else if (![self.asyncView respondsToSelector:@selector(data)] || self.asyncView.data) {
+    else if (self.asyncView.data.value) {
         return IIAsyncStatusData;
     }
     else {

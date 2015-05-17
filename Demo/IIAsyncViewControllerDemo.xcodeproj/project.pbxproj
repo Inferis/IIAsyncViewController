@@ -19,6 +19,7 @@
 		E29C22611A09B10E0049A1C0 /* IIAsyncViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E29C22601A09B10E0049A1C0 /* IIAsyncViewController.m */; };
 		E29C22691A09B60C0049A1C0 /* IIAsyncView.m in Sources */ = {isa = PBXBuildFile; fileRef = E29C22681A09B60C0049A1C0 /* IIAsyncView.m */; };
 		E29C226C1A09B65B0049A1C0 /* IIAsyncStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = E29C226B1A09B65B0049A1C0 /* IIAsyncStatusView.m */; };
+		E2FAAC901B0891C900CBFFB1 /* IIAsyncData.m in Sources */ = {isa = PBXBuildFile; fileRef = E2FAAC8F1B0891C900CBFFB1 /* IIAsyncData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,8 @@
 		E29C22681A09B60C0049A1C0 /* IIAsyncView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIAsyncView.m; sourceTree = "<group>"; };
 		E29C226A1A09B65B0049A1C0 /* IIAsyncStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIAsyncStatusView.h; sourceTree = "<group>"; };
 		E29C226B1A09B65B0049A1C0 /* IIAsyncStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIAsyncStatusView.m; sourceTree = "<group>"; };
+		E2FAAC8E1B0891C900CBFFB1 /* IIAsyncData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIAsyncData.h; sourceTree = "<group>"; };
+		E2FAAC8F1B0891C900CBFFB1 /* IIAsyncData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIAsyncData.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +171,8 @@
 				E29C226B1A09B65B0049A1C0 /* IIAsyncStatusView.m */,
 				E251AA301A0A40DA00BF629E /* IIAsyncMessageView.h */,
 				E251AA311A0A40DA00BF629E /* IIAsyncMessageView.m */,
+				E2FAAC8E1B0891C900CBFFB1 /* IIAsyncData.h */,
+				E2FAAC8F1B0891C900CBFFB1 /* IIAsyncData.m */,
 			);
 			name = IIAsyncViewController;
 			path = ../../IIAsyncViewController;
@@ -275,6 +280,7 @@
 			files = (
 				E29C22401A09B0AD0049A1C0 /* ViewController.m in Sources */,
 				E251AA2F1A0A33FA00BF629E /* DemoView.m in Sources */,
+				E2FAAC901B0891C900CBFFB1 /* IIAsyncData.m in Sources */,
 				E29C22611A09B10E0049A1C0 /* IIAsyncViewController.m in Sources */,
 				E29C223D1A09B0AD0049A1C0 /* AppDelegate.m in Sources */,
 				E29C223A1A09B0AD0049A1C0 /* main.m in Sources */,

@@ -4,57 +4,24 @@
 //
 
 #import "IIAsyncView.h"
+#import "IIAsyncData.h"
 #import "IIAsyncViewInternals.h"
 
-@interface IIAsyncView ()
+@implementation IIAsyncView 
 
-@property (nonatomic, assign, getter = isLoading) BOOL loading;
-
-@end
-
-@implementation IIAsyncView {
-    BOOL _dataWasSet;
-}
-
-@synthesize error = _error;
 @synthesize data = _data;
-@synthesize asyncStateDelegate = _asyncStateDelegate;
 
-- (void)setError:(NSError *)error {
-    _error = error;
-    [self invalidateState];
-}
-
-- (void)setData:(id)data {
-    _error = nil;
-    _data = data;
-    _dataWasSet = YES;
-
-    [self invalidateState];
-}
-
-- (void)reset
+- (id<IIAsyncData>)data
 {
-    _dataWasSet = NO;
-    _data = nil;
-    _error = nil;
-    
-    [self invalidateState];
+    return (_data = _data ?: [IIAsyncData new]);
 }
 
-- (void)invalidateState
+- (void)asyncDataApplyValueAnimated:(BOOL)animated
 {
-    [self.asyncStateDelegate asyncViewDidInvalidateState:self];
-}
-
-- (void)applyDataAnimated:(BOOL)animated
-{
-    // should be overridden
-}
-
-- (BOOL)isLoading
-{
-    return !self.error && !_dataWasSet;
+#if !defined(NS_BLOCK_ASSERTIONS)
+    NSString *error = [NSString stringWithFormat:@"%@ should implement asyncApplyDataValueAnimated:", self.class];
+    NSAssert(NO, error);
+#endif
 }
 
 

@@ -6,31 +6,41 @@
 #import <UIKit/UIKit.h>
 
 @class IIAsyncView;
+@protocol IIAsyncData;
 
-@protocol IIAsyncViewDelegate <NSObject>
+@protocol IIAsyncDataDelegate <NSObject>
 
 @required
-- (void)asyncViewDidInvalidateState:(IIAsyncView*)view;
-- (void)reloadAsyncView;
+- (void)asyncDataDidInvalidateState:(id<IIAsyncData>)data;
+- (void)reloadAsyncData;
+
+@end
+
+@protocol IIAsyncData <NSObject>
+
+@required
+@property (nonatomic, assign, readonly, getter = isLoading) BOOL loading;
+@property (nonatomic, strong) NSError *error;
+@property (nonatomic, strong) id value;
+@property (nonatomic, weak) id<IIAsyncDataDelegate> asyncDataDelegate;
+
+- (void)reset;
+- (void)invalidateState;
 
 @end
 
 @protocol IIAsyncView <NSObject>
 
 @required
-@property (nonatomic, assign, readonly, getter = isLoading) BOOL loading;
-@property (nonatomic, strong) NSError *error;
-@property (nonatomic, strong) id data;
-@property (nonatomic, weak) id<IIAsyncViewDelegate> asyncStateDelegate;
+@property (nonatomic, strong, readonly) id<IIAsyncData> data;
 
-- (void)reset;
-- (void)invalidateState;
-- (void)applyDataAnimated:(BOOL)animated;
+- (void)asyncDataApplyValueAnimated:(BOOL)animated;
 
 @optional
-- (NSString*)noDataMessage;
-- (BOOL)canReloadAfterError;
-- (BOOL)canReloadWithNoData;
+
+- (NSString*)asyncNoDataMessage;
+- (BOOL)asyncCanReloadWithNoData;
+- (BOOL)asyncCanReloadAfterError;
 
 @end
 

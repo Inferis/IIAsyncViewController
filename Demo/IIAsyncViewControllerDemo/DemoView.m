@@ -11,21 +11,29 @@
 
 @end
 
-@implementation DemoView
-
-- (void)applyDataAnimated:(BOOL)animated
-{
-    self.label.attributedText = self.data;
+@implementation DemoView {
+    
 }
 
-- (BOOL)canReloadWithNoData
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+}
+
+- (void)asyncDataApplyValueAnimated:(BOOL)animated
+{
+    self.label.attributedText = self.data.value;
+}
+
+- (BOOL)asyncCanReloadWithNoData
 {
     return NO;
 }
 
-- (BOOL)canReloadAfterError
+- (BOOL)asyncCanReloadAfterError
 {
     return YES;
 }
+
 
 @end

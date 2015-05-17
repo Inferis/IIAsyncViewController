@@ -95,7 +95,7 @@
     [self animate:animated transition:^{
         [self stopSpinner];
         [self showAsyncView];
-        [_asyncView applyDataAnimated:animated];
+        [_asyncView asyncDataApplyValueAnimated:animated];
         [self hideErrorView];
         [self hideNoDataView];
     }];
@@ -103,18 +103,16 @@
 
 - (void)animate:(BOOL)animated transition:(void(^)(void))animations
 {
-    dispatch_sync_main(^{
-        if (animated) {
-            [UIView animateWithDuration:0.25 animations:^{
-                animations();
-            }];
-        }
-        else {
-            [UIView performWithoutAnimation:^{
-                animations();
-            }];
-        }
-    });
+    if (animated) {
+        [UIView animateWithDuration:0.25 animations:^{
+            animations();
+        }];
+    }
+    else {
+        [UIView performWithoutAnimation:^{
+            animations();
+        }];
+    }
 }
 
 #pragma mark - Spinner
@@ -167,6 +165,7 @@
     
     [_asyncView removeFromSuperview];
     _asyncView = asyncView;
+    _asyncView.translatesAutoresizingMaskIntoConstraints = YES;
     [self addSubview:_asyncView];
     self.backgroundColor = asyncView.backgroundColor;
     [self setNeedsLayout];
@@ -215,8 +214,8 @@
 {
     // get the no data message
     NSString *message = nil;
-    if ([_asyncView respondsToSelector:@selector(noDataMessage)]) {
-        message = [_asyncView noDataMessage];
+    if ([_asyncView respondsToSelector:@selector(asyncNoDataMessage)]) {
+        message = [_asyncView asyncNoDataMessage];
     }
     message = message ?: NSLocalizedString(@"IIAsyncStatusView.nodata", @"Message to show when no data is present");
     
@@ -225,8 +224,8 @@
 
     // show reload button if supported
     BOOL canReload = NO;
-    if ([_asyncView respondsToSelector:@selector(canReloadWithNoData)]) {
-        canReload = [_asyncView canReloadWithNoData];
+    if ([_asyncView respondsToSelector:@selector(asyncCanReloadWithNoData)]) {
+        canReload = [_asyncView asyncCanReloadWithNoData];
     }
     _messageView.showsReloadButton = canReload;
 }
@@ -271,8 +270,8 @@
     _errorView.alpha = 1;
     
     BOOL canReload = NO;
-    if ([_asyncView respondsToSelector:@selector(canReloadAfterError)]) {
-        canReload = [_asyncView canReloadAfterError];
+    if ([_asyncView respondsToSelector:@selector(asyncCanReloadAfterError)]) {
+        canReload = [_asyncView asyncCanReloadAfterError];
     }
     _errorView.showsReloadButton = canReload;
 }
@@ -291,7 +290,7 @@
 
 - (void)asyncMessageViewDidSelectReload:(IIAsyncMessageView *)messageView
 {
-    [self.asyncView.asyncStateDelegate reloadAsyncView];
+    [self.asyncView.data.asyncDataDelegate reloadAsyncData];
 }
 
 

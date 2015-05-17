@@ -21,19 +21,19 @@
         switch (dice) {
             case 0:
                 // no data
-                self.asyncView.data = nil;
+                self.asyncView.data.value = nil;
                 break;
                 
             case 1: {
                 // data
                 NSAttributedString *data = [[NSAttributedString alloc] initWithString:@"test" attributes:nil];
-                self.asyncView.data = data;
+                self.asyncView.data.value = data;
                 break;
             }
 
             case 2:
                 // error
-                self.asyncView.error = [NSError errorWithDomain:@"ViewController" code:404 userInfo:@{ NSLocalizedDescriptionKey: @"404 - Not Found" }];
+                self.asyncView.data.error = [NSError errorWithDomain:@"ViewController" code:404 userInfo:@{ NSLocalizedDescriptionKey: @"404 - Not Found" }];
                 break;
         }
     });
