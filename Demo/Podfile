@@ -1,0 +1,9 @@
+platform :ios, '7.0'
+
+source 'https://github.com/CocoaPods/Specs'
+
+target 'IIAsyncViewControllerDemoTests', :exclusive => true do
+  pod 'Specta', '~> 1.0'
+  pod 'Expecta', '~> 1.0'
+  pod 'OCMock', '~> 3.0'
+end

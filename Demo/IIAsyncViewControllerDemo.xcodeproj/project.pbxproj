@@ -20,6 +20,7 @@
 		E29C22691A09B60C0049A1C0 /* IIAsyncView.m in Sources */ = {isa = PBXBuildFile; fileRef = E29C22681A09B60C0049A1C0 /* IIAsyncView.m */; };
 		E29C226C1A09B65B0049A1C0 /* IIAsyncStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = E29C226B1A09B65B0049A1C0 /* IIAsyncStatusView.m */; };
 		E2FAAC901B0891C900CBFFB1 /* IIAsyncData.m in Sources */ = {isa = PBXBuildFile; fileRef = E2FAAC8F1B0891C900CBFFB1 /* IIAsyncData.m */; };
+		E7E8A483E22DD8BAFCA533AC /* libPods-IIAsyncViewControllerDemoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC2EA2331010966B71904E2A /* libPods-IIAsyncViewControllerDemoTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +34,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3E276F258E7BB44E6BB80162 /* Pods-IIAsyncViewControllerDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IIAsyncViewControllerDemoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IIAsyncViewControllerDemoTests/Pods-IIAsyncViewControllerDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
+		BC2EA2331010966B71904E2A /* libPods-IIAsyncViewControllerDemoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-IIAsyncViewControllerDemoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D23B3FA02673026365BCAA20 /* Pods-IIAsyncViewControllerDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IIAsyncViewControllerDemoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-IIAsyncViewControllerDemoTests/Pods-IIAsyncViewControllerDemoTests.release.xcconfig"; sourceTree = "<group>"; };
 		E251AA2D1A0A33FA00BF629E /* DemoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoView.h; sourceTree = "<group>"; };
 		E251AA2E1A0A33FA00BF629E /* DemoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemoView.m; sourceTree = "<group>"; };
 		E251AA301A0A40DA00BF629E /* IIAsyncMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIAsyncMessageView.h; sourceTree = "<group>"; };
@@ -74,12 +78,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E7E8A483E22DD8BAFCA533AC /* libPods-IIAsyncViewControllerDemoTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		97AD824BB9062C398F1D09AC /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3E276F258E7BB44E6BB80162 /* Pods-IIAsyncViewControllerDemoTests.debug.xcconfig */,
+				D23B3FA02673026365BCAA20 /* Pods-IIAsyncViewControllerDemoTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		CFB77D2CFEB320A7276335AE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BC2EA2331010966B71904E2A /* libPods-IIAsyncViewControllerDemoTests.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E251AA331A0CD49E00BF629E /* Private */ = {
 			isa = PBXGroup;
 			children = (
@@ -94,6 +116,8 @@
 				E29C22361A09B0AD0049A1C0 /* IIAsyncViewControllerDemo */,
 				E29C22501A09B0AD0049A1C0 /* IIAsyncViewControllerDemoTests */,
 				E29C22351A09B0AD0049A1C0 /* Products */,
+				97AD824BB9062C398F1D09AC /* Pods */,
+				CFB77D2CFEB320A7276335AE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -202,9 +226,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E29C225A1A09B0AD0049A1C0 /* Build configuration list for PBXNativeTarget "IIAsyncViewControllerDemoTests" */;
 			buildPhases = (
+				552EB396C78590C7CA83F3F4 /* Check Pods Manifest.lock */,
 				E29C22491A09B0AD0049A1C0 /* Sources */,
 				E29C224A1A09B0AD0049A1C0 /* Frameworks */,
 				E29C224B1A09B0AD0049A1C0 /* Resources */,
+				3DCD7F0A13BE002B66DDA9A5 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -272,6 +298,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3DCD7F0A13BE002B66DDA9A5 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-IIAsyncViewControllerDemoTests/Pods-IIAsyncViewControllerDemoTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		552EB396C78590C7CA83F3F4 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E29C22301A09B0AD0049A1C0 /* Sources */ = {
@@ -428,6 +487,7 @@
 		};
 		E29C225B1A09B0AD0049A1C0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3E276F258E7BB44E6BB80162 /* Pods-IIAsyncViewControllerDemoTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -447,6 +507,7 @@
 		};
 		E29C225C1A09B0AD0049A1C0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D23B3FA02673026365BCAA20 /* Pods-IIAsyncViewControllerDemoTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
