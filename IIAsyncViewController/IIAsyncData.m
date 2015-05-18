@@ -24,12 +24,12 @@
 
 - (void)setError:(NSError *)error {
     _error = error;
-    [self invalidateState];
+    [self invalidateStateForced:NO];
 }
 
 - (void)setValue:(id)value {
     _error = nil;
-    BOOL forced = _value == value;
+    BOOL forced = _valueWasSet && _value == value;
     _value = value;
     _valueWasSet = YES;
     

@@ -33,12 +33,12 @@ describe(@"when setting the delegate", ^{
     it(@"should not retain the object", ^{
         data.asyncDataDelegate = delegate;
         delegate = nil;
-        waitUntil(^(DoneCallback done) {
-            // give it some time
-            [NSThread sleepForTimeInterval:1];
+//        waitUntil(^(DoneCallback done) {
+//            // give it some time
+//            [NSThread sleepForTimeInterval:1];
             expect(data.asyncDataDelegate).to.beNil();
-            done();
-        });
+//            done();
+//        });
     });
 });
 
@@ -54,7 +54,7 @@ describe(@"when setting the value", ^{
     
     beforeEach(^{
         data = [IIAsyncData new];
-        delegate = OCMProtocolMock(@protocol(IIAsyncDataDelegate));
+        delegate = OCMStrictProtocolMock(@protocol(IIAsyncDataDelegate));
         data.asyncDataDelegate = delegate;
     });
 
@@ -120,20 +120,20 @@ describe(@"when setting the error", ^{
         theError = [NSError errorWithDomain:@"test" code:123 userInfo:nil];
     });
     
-    it(@"should remember the data", ^{
-        OCMStub([delegate asyncData:OCMOCK_ANY didInvalidateStateForced:YES]);
-        NSError* theError = [NSError errorWithDomain:@"test" code:123 userInfo:nil];
+    it(@"should remember the error", ^{
+        OCMStub([delegate asyncData:OCMOCK_ANY didInvalidateStateForced:NO]);
         data.error = theError;
         expect(data.error).to.beIdenticalTo(theError);
     });
     
     it(@"should call the delegate", ^{
-        OCMExpect([delegate asyncData:OCMOCK_ANY didInvalidateStateForced:YES]);
+        OCMExpect([delegate asyncData:OCMOCK_ANY didInvalidateStateForced:NO]);
         data.error = theError;
         OCMVerifyAll(delegate);
     });
 
     it(@"should no longer be loading", ^{
+        OCMStub([delegate asyncData:OCMOCK_ANY didInvalidateStateForced:NO]);
         data.error = theError;
         expect(data.isLoading).to.beFalsy();
     });
@@ -142,27 +142,74 @@ describe(@"when setting the error", ^{
 describe(@"when resetting", ^{
     __block IIAsyncData *data;
     __block OCMockObject<IIAsyncDataDelegate> *delegate;
-    __block NSError* theError;
-    
+
     beforeEach(^{
         data = [IIAsyncData new];
         delegate = OCMStrictProtocolMock(@protocol(IIAsyncDataDelegate));
-        data.asyncDataDelegate = delegate;
-        theError = [NSError errorWithDomain:@"test" code:123 userInfo:nil];
     });
-    
-    it(@"should remember the data", ^{
-        OCMStub([delegate asyncData:OCMOCK_ANY didInvalidateStateForced:YES]);
-        NSError* theError = [NSError errorWithDomain:@"test" code:123 userInfo:nil];
-        data.error = theError;
-        expect(data.error).to.beIdenticalTo(theError);
+
+    describe(@"after an error", ^{
+        beforeEach(^{
+            data.error = [NSError errorWithDomain:@"test" code:123 userInfo:nil];
+            data.asyncDataDelegate = delegate;
+        });
+        
+        it(@"should not contain any error", ^{
+            OCMStub([delegate asyncData:OCMOCK_ANY didInvalidateStateForced:NO]);
+            [data reset];
+            expect(data.error).to.beNil();
+        });
+
+        it(@"should not contain any data", ^{
+            OCMStub([delegate asyncData:OCMOCK_ANY didInvalidateStateForced:NO]);
+            [data reset];
+            expect(data.value).to.beNil();
+        });
+
+        it(@"should call the delegate", ^{
+            OCMExpect([delegate asyncData:data didInvalidateStateForced:NO]);
+            [data reset];
+            OCMVerifyAll(delegate);
+        });
+
+        it(@"should be loading", ^{
+            OCMStub([delegate asyncData:OCMOCK_ANY didInvalidateStateForced:NO]);
+            [data reset];
+            expect(data.isLoading).to.beTruthy();
+        });
     });
-    
-    it(@"should call the delegate", ^{
-        OCMExpect([delegate asyncData:OCMOCK_ANY didInvalidateStateForced:YES]);
-        data.error = theError;
-        OCMVerifyAll(delegate);
+
+    describe(@"after a data value", ^{
+        beforeEach(^{
+            data.value = [NSObject new];
+            data.asyncDataDelegate = delegate;
+        });
+        
+        it(@"should not contain any error", ^{
+            OCMStub([delegate asyncData:OCMOCK_ANY didInvalidateStateForced:NO]);
+            [data reset];
+            expect(data.error).to.beNil();
+        });
+        
+        it(@"should not contain any data", ^{
+            OCMStub([delegate asyncData:OCMOCK_ANY didInvalidateStateForced:NO]);
+            [data reset];
+            expect(data.value).to.beNil();
+        });
+        
+        it(@"should call the delegate", ^{
+            OCMExpect([delegate asyncData:OCMOCK_ANY didInvalidateStateForced:NO]);
+            [data reset];
+            OCMVerifyAll(delegate);
+        });
+        
+        it(@"should be loading", ^{
+            OCMStub([delegate asyncData:OCMOCK_ANY didInvalidateStateForced:NO]);
+            [data reset];
+            expect(data.isLoading).to.beTruthy();
+        });
     });
+
 });
 
 SpecEnd
