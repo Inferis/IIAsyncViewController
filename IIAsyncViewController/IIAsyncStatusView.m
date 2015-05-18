@@ -5,6 +5,7 @@
 
 #import "IIAsyncStatusView.h"
 #import "IIAsyncViewInternals.h"
+#import <objc/runtime.h>
 
 @interface IIAsyncStatusView () <IIAsyncMessageViewDelegate>
 
@@ -15,6 +16,7 @@
     UIActivityIndicatorView *_spinner;
     IIAsyncMessageView *_messageView;
     IIAsyncMessageView *_errorView;
+    NSArray *_asyncViewLayoutGuideConstraints;
 }
 
 @synthesize asyncView = _asyncView;
@@ -51,6 +53,34 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
+
+    if (_asyncViewLayoutGuideConstraints) {
+        NSArray *constraints = _asyncViewLayoutGuideConstraints;
+        _asyncViewLayoutGuideConstraints = nil;
+        
+        NSArray *currentConstraints = [self findLayoutGuideConstraints:_asyncView];
+        if (currentConstraints.count == 0) {
+            UIViewController *viewController = [self findViewDelegate:self];
+            
+            for (NSArray *constraintInfo in constraints) {
+                NSLayoutConstraint *oldConstraint = constraintInfo[0];
+                BOOL topGuide = [constraintInfo[1] boolValue];
+                id firstItem = oldConstraint.firstItem == constraintInfo[2] ? (topGuide ? viewController.topLayoutGuide : viewController.bottomLayoutGuide) : oldConstraint.firstItem;
+                id secondItem = oldConstraint.secondItem == constraintInfo[2] ? (topGuide ? viewController.topLayoutGuide : viewController.bottomLayoutGuide) : oldConstraint.secondItem;
+                NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:firstItem
+                                                                              attribute:oldConstraint.firstAttribute
+                                                                              relatedBy:oldConstraint.relation
+                                                                                 toItem:secondItem
+                                                                              attribute:oldConstraint.secondAttribute
+                                                                             multiplier:oldConstraint.multiplier
+                                                                               constant:oldConstraint.constant];
+                [self addConstraint:constraint];
+                
+            }
+            [self setNeedsUpdateConstraints];
+            [super layoutSubviews];
+        }
+    }
     
     [self layoutSpinner];
     [self layoutAsyncView];
@@ -163,6 +193,9 @@
 {
     if (_asyncView == asyncView) return;
     
+    _asyncViewLayoutGuideConstraints = [self findLayoutGuideConstraints:asyncView];
+
+    // find constraints
     [_asyncView removeFromSuperview];
     _asyncView = asyncView;
     _asyncView.translatesAutoresizingMaskIntoConstraints = YES;
@@ -224,8 +257,8 @@
 
     // show reload button if supported
     BOOL canReload = NO;
-    if ([_asyncView respondsToSelector:@selector(asyncCanReloadWithNoData)]) {
-        canReload = [_asyncView asyncCanReloadWithNoData];
+    if ([_asyncView respondsToSelector:@selector(asyncCanReload)]) {
+        canReload = [_asyncView asyncCanReload];
     }
     _messageView.showsReloadButton = canReload;
 }
@@ -270,8 +303,8 @@
     _errorView.alpha = 1;
     
     BOOL canReload = NO;
-    if ([_asyncView respondsToSelector:@selector(asyncCanReloadAfterError)]) {
-        canReload = [_asyncView asyncCanReloadAfterError];
+    if ([_asyncView respondsToSelector:@selector(asyncCanReload)]) {
+        canReload = [_asyncView asyncCanReload];
     }
     _errorView.showsReloadButton = canReload;
 }
@@ -286,12 +319,53 @@
     _errorView.messageLabel.textColor = [UIColor redColor];
 }
 
+#pragma mark - constraints
+
+- (NSArray*)findLayoutGuideConstraints:(UIView*)view
+{
+    NSMutableArray *constraints = [NSMutableArray new];
+    
+    UIViewController *delegate = [self findViewDelegate:view];
+    for (NSLayoutConstraint *constraint in view.constraints) {
+        if (constraint.class != [NSLayoutConstraint class]) continue;
+        if (constraint.firstItem == delegate.topLayoutGuide || constraint.secondItem == delegate.topLayoutGuide) {
+            [constraints addObject:@[constraint, @YES, delegate.topLayoutGuide]];
+        }
+        else if (constraint.firstItem == delegate.bottomLayoutGuide || constraint.secondItem == delegate.bottomLayoutGuide) {
+            [constraints addObject:@[constraint, @NO, delegate.bottomLayoutGuide]];
+        }
+    }
+    
+    for (UIView *subview in view.subviews) {
+        [constraints addObjectsFromArray:[self findLayoutGuideConstraints:subview]];
+    }
+    
+    return [constraints copy];
+}
+
+- (UIViewController*)findViewDelegate:(UIView*)view
+{
+    UIViewController *delegate = nil;
+    Ivar ivar = class_getInstanceVariable(view.class, "_viewDelegate");
+    if (ivar) {
+        delegate = object_getIvar(view, ivar);
+        if ([delegate isKindOfClass:[UIViewController class]]) {
+            return delegate;
+        }
+    }
+    
+    return nil;
+    
+}
+
 #pragma mark - IIAsyncMessageViewDelegate
 
 - (void)asyncMessageViewDidSelectReload:(IIAsyncMessageView *)messageView
 {
-    [self.asyncView.data.asyncDataDelegate reloadAsyncData];
+    [self.asyncView.asyncData.asyncDataDelegate reloadAsyncData];
 }
+
+
 
 
 @end
