@@ -7,9 +7,15 @@
 //
 
 #import "IIAsyncViewController.h"
+#import "IIAsyncView.h"
+
+@interface TestView : IIAsyncView
+
+@end
 
 @interface TestViewController : IIAsyncViewController
 
 - (instancetype)initWithDefaultView;
+
 
 @end

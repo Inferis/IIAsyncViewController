@@ -7,11 +7,6 @@
 //
 
 #import "TestViewController.h"
-#import "IIAsyncView.h"
-
-@interface TestView : IIAsyncView
-
-@end
 
 @interface TestViewController ()
 
@@ -51,5 +46,9 @@
 
 @implementation TestView
 
+- (void)asyncDataApplyValueAnimated:(BOOL)animated
+{
+    
+}
 
 @end
