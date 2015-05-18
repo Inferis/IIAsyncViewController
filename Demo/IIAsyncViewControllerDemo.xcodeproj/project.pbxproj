@@ -11,13 +11,15 @@
 		E251AA321A0A40DA00BF629E /* IIAsyncMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = E251AA311A0A40DA00BF629E /* IIAsyncMessageView.m */; };
 		E27C50931B09F5D5002ED04E /* LaggyBackend.m in Sources */ = {isa = PBXBuildFile; fileRef = E27C50921B09F5D5002ED04E /* LaggyBackend.m */; };
 		E27C509B1B09FA00002ED04E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E27C50991B09FA00002ED04E /* Localizable.strings */; };
+		E27C509E1B09FC78002ED04E /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E27C509D1B09FC78002ED04E /* TestViewController.m */; };
+		E27C50A01B09FD3B002ED04E /* IIAsyncDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = E27C509F1B09FD3B002ED04E /* IIAsyncDataSpec.m */; };
 		E29C223A1A09B0AD0049A1C0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E29C22391A09B0AD0049A1C0 /* main.m */; };
 		E29C223D1A09B0AD0049A1C0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E29C223C1A09B0AD0049A1C0 /* AppDelegate.m */; };
 		E29C22401A09B0AD0049A1C0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E29C223F1A09B0AD0049A1C0 /* ViewController.m */; };
 		E29C22431A09B0AD0049A1C0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E29C22411A09B0AD0049A1C0 /* Main.storyboard */; };
 		E29C22451A09B0AD0049A1C0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E29C22441A09B0AD0049A1C0 /* Images.xcassets */; };
 		E29C22481A09B0AD0049A1C0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E29C22461A09B0AD0049A1C0 /* LaunchScreen.xib */; };
-		E29C22541A09B0AD0049A1C0 /* IIAsyncViewControllerDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E29C22531A09B0AD0049A1C0 /* IIAsyncViewControllerDemoTests.m */; };
+		E29C22541A09B0AD0049A1C0 /* IIAsyncViewControllerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = E29C22531A09B0AD0049A1C0 /* IIAsyncViewControllerSpec.m */; };
 		E29C22611A09B10E0049A1C0 /* IIAsyncViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E29C22601A09B10E0049A1C0 /* IIAsyncViewController.m */; };
 		E29C22691A09B60C0049A1C0 /* IIAsyncView.m in Sources */ = {isa = PBXBuildFile; fileRef = E29C22681A09B60C0049A1C0 /* IIAsyncView.m */; };
 		E29C226C1A09B65B0049A1C0 /* IIAsyncStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = E29C226B1A09B65B0049A1C0 /* IIAsyncStatusView.m */; };
@@ -47,6 +49,9 @@
 		E27C50911B09F5D5002ED04E /* LaggyBackend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaggyBackend.h; sourceTree = "<group>"; };
 		E27C50921B09F5D5002ED04E /* LaggyBackend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaggyBackend.m; sourceTree = "<group>"; };
 		E27C509A1B09FA00002ED04E /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		E27C509C1B09FC78002ED04E /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
+		E27C509D1B09FC78002ED04E /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
+		E27C509F1B09FD3B002ED04E /* IIAsyncDataSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIAsyncDataSpec.m; sourceTree = "<group>"; };
 		E29C22341A09B0AD0049A1C0 /* IIAsyncViewControllerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IIAsyncViewControllerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E29C22381A09B0AD0049A1C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E29C22391A09B0AD0049A1C0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -59,7 +64,7 @@
 		E29C22471A09B0AD0049A1C0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		E29C224D1A09B0AD0049A1C0 /* IIAsyncViewControllerDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IIAsyncViewControllerDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E29C22521A09B0AD0049A1C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E29C22531A09B0AD0049A1C0 /* IIAsyncViewControllerDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IIAsyncViewControllerDemoTests.m; sourceTree = "<group>"; };
+		E29C22531A09B0AD0049A1C0 /* IIAsyncViewControllerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IIAsyncViewControllerSpec.m; sourceTree = "<group>"; };
 		E29C225F1A09B10E0049A1C0 /* IIAsyncViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIAsyncViewController.h; sourceTree = "<group>"; };
 		E29C22601A09B10E0049A1C0 /* IIAsyncViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIAsyncViewController.m; sourceTree = "<group>"; };
 		E29C22661A09B60C0049A1C0 /* IIAsyncViewProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIAsyncViewProtocols.h; sourceTree = "<group>"; };
@@ -168,8 +173,11 @@
 		E29C22501A09B0AD0049A1C0 /* IIAsyncViewControllerDemoTests */ = {
 			isa = PBXGroup;
 			children = (
-				E29C22531A09B0AD0049A1C0 /* IIAsyncViewControllerDemoTests.m */,
+				E29C22531A09B0AD0049A1C0 /* IIAsyncViewControllerSpec.m */,
 				E29C22511A09B0AD0049A1C0 /* Supporting Files */,
+				E27C509C1B09FC78002ED04E /* TestViewController.h */,
+				E27C509D1B09FC78002ED04E /* TestViewController.m */,
+				E27C509F1B09FD3B002ED04E /* IIAsyncDataSpec.m */,
 			);
 			path = IIAsyncViewControllerDemoTests;
 			sourceTree = "<group>";
@@ -363,7 +371,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E29C22541A09B0AD0049A1C0 /* IIAsyncViewControllerDemoTests.m in Sources */,
+				E27C509E1B09FC78002ED04E /* TestViewController.m in Sources */,
+				E27C50A01B09FD3B002ED04E /* IIAsyncDataSpec.m in Sources */,
+				E29C22541A09B0AD0049A1C0 /* IIAsyncViewControllerSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
