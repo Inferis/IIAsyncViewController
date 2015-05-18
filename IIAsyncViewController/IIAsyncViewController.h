@@ -4,8 +4,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "IIAsyncView.h"
-#import "IIAsyncStatusView.h"
+#import "IIAsyncViewProtocols.h"
 
 @interface IIAsyncViewController : UIViewController
 

@@ -9,9 +9,9 @@
 
 @implementation IIAsyncView 
 
-@synthesize data = _data;
+@synthesize asyncData = _data;
 
-- (id<IIAsyncData>)data
+- (id<IIAsyncData>)asyncData
 {
     return (_data = _data ?: [IIAsyncData new]);
 }

@@ -51,7 +51,6 @@ typedef NS_ENUM(NSUInteger, IIAsyncStatusViewState) {
 {
     // don't wrap if there's a status view already
     if (self.statusView) return;
-    
 
     // get async view. This is the default view when first wrapping.
     UIView<IIAsyncView> *asyncView = (UIView<IIAsyncView>*)self.view;
@@ -62,7 +61,7 @@ typedef NS_ENUM(NSUInteger, IIAsyncStatusViewState) {
     NSAssert([statusView conformsToProtocol:@protocol(IIAsyncStatusView)], @"[%@ loadStatusView] should provide a view confirming to IIAsyncStatusView.", self.class);
     statusView.frame = asyncView.frame;
     statusView.asyncView = asyncView;
-    asyncView.data.asyncDataDelegate = self;
+    asyncView.asyncData.asyncDataDelegate = self;
     
     // make main view the wrapping view
     [super setView:statusView];
@@ -80,14 +79,14 @@ typedef NS_ENUM(NSUInteger, IIAsyncStatusViewState) {
 
 #pragma mark - Async View delegate
 
-- (void)asyncDataDidInvalidateState:(id<IIAsyncData>)data
+- (void)asyncData:(id<IIAsyncData>)data didInvalidateStateForced:(BOOL)forced
 {
-    [self updateState:NO];
+    [self updateState:forced];
 }
 
 - (void)reloadAsyncData
 {
-    [self.asyncView.data reset];
+    [self.asyncView.asyncData reset];
     [self performAsyncDataRequest];
 }
 
@@ -114,7 +113,7 @@ typedef NS_ENUM(NSUInteger, IIAsyncStatusViewState) {
 
         case IIAsyncStatusError: {
             dispatch_sync_main(^{
-                [self.statusView transitionToErrorState:self.asyncView.data.error animated:animated];
+                [self.statusView transitionToErrorState:self.asyncView.asyncData.error animated:animated];
                 [self didTransitionToErrorStateAnimated:animated];
             });
             break;
@@ -143,13 +142,13 @@ typedef NS_ENUM(NSUInteger, IIAsyncStatusViewState) {
 - (IIAsyncStatusViewState)determineState
 {
     // determine the new state
-    if (!self.asyncView || [self.asyncView.data isLoading]) {
+    if (!self.asyncView || [self.asyncView.asyncData isLoading]) {
         return IIAsyncStatusLoading;
     }
-    else if (self.asyncView.data.error) {
+    else if (self.asyncView.asyncData.error) {
         return IIAsyncStatusError;
     }
-    else if (self.asyncView.data.value) {
+    else if (self.asyncView.asyncData.value) {
         return IIAsyncStatusData;
     }
     else {

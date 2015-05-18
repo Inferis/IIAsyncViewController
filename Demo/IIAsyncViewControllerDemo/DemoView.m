@@ -22,18 +22,14 @@
 
 - (void)asyncDataApplyValueAnimated:(BOOL)animated
 {
-    self.label.attributedText = self.data.value;
+    self.label.attributedText = self.asyncData.value;
 }
 
-- (BOOL)asyncCanReloadWithNoData
+- (BOOL)asyncCanReload
 {
-    return NO;
+    return self.asyncData.error != nil;
 }
 
-- (BOOL)asyncCanReloadAfterError
-{
-    return YES;
-}
 
 
 @end

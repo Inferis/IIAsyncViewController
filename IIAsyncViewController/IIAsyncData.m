@@ -29,10 +29,11 @@
 
 - (void)setValue:(id)value {
     _error = nil;
+    BOOL forced = _value == value;
     _value = value;
     _valueWasSet = YES;
     
-    [self invalidateState];
+    [self invalidateStateForced:forced];
 }
 
 - (void)reset
@@ -41,12 +42,17 @@
     _value = nil;
     _error = nil;
     
-    [self invalidateState];
+    [self invalidateStateForced:NO];
 }
 
 - (void)invalidateState
 {
-    [self.asyncDataDelegate asyncDataDidInvalidateState:self];
+    [self invalidateStateForced:YES];
+}
+
+- (void)invalidateStateForced:(BOOL)forced
+{
+    [self.asyncDataDelegate asyncData:self didInvalidateStateForced:forced];
 }
 
 - (BOOL)isLoading

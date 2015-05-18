@@ -21,19 +21,23 @@
         switch (dice) {
             case 0:
                 // no data
-                self.asyncView.data.value = nil;
+                self.asyncView.asyncData.value = nil;
                 break;
                 
             case 1: {
                 // data
                 NSAttributedString *data = [[NSAttributedString alloc] initWithString:@"test" attributes:nil];
-                self.asyncView.data.value = data;
+                self.asyncView.asyncData.value = data;
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    NSAttributedString *data = [[NSAttributedString alloc] initWithString:@"test2" attributes:nil];
+                    self.asyncView.asyncData.value = data;
+                });
                 break;
             }
 
             case 2:
                 // error
-                self.asyncView.data.error = [NSError errorWithDomain:@"ViewController" code:404 userInfo:@{ NSLocalizedDescriptionKey: @"404 - Not Found" }];
+                self.asyncView.asyncData.error = [NSError errorWithDomain:@"ViewController" code:404 userInfo:@{ NSLocalizedDescriptionKey: @"404 - Not Found" }];
                 break;
         }
     });

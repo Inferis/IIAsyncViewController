@@ -11,7 +11,7 @@
 @protocol IIAsyncDataDelegate <NSObject>
 
 @required
-- (void)asyncDataDidInvalidateState:(id<IIAsyncData>)data;
+- (void)asyncData:(id<IIAsyncData>)data didInvalidateStateForced:(BOOL)forced;
 - (void)reloadAsyncData;
 
 @end
@@ -32,15 +32,14 @@
 @protocol IIAsyncView <NSObject>
 
 @required
-@property (nonatomic, strong, readonly) id<IIAsyncData> data;
+@property (nonatomic, strong, readonly) id<IIAsyncData> asyncData;
 
 - (void)asyncDataApplyValueAnimated:(BOOL)animated;
 
 @optional
 
 - (NSString*)asyncNoDataMessage;
-- (BOOL)asyncCanReloadWithNoData;
-- (BOOL)asyncCanReloadAfterError;
+- (BOOL)asyncCanReload;
 
 @end
 
