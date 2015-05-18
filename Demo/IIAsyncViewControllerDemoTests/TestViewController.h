@@ -10,4 +10,6 @@
 
 @interface TestViewController : IIAsyncViewController
 
+- (instancetype)initWithDefaultView;
+
 @end

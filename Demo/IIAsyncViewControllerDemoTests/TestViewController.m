@@ -7,11 +7,49 @@
 //
 
 #import "TestViewController.h"
+#import "IIAsyncView.h"
+
+@interface TestView : IIAsyncView
+
+@end
 
 @interface TestViewController ()
 
 @end
 
-@implementation TestViewController
+@implementation TestViewController {
+    UIView *_theAsyncView;
+}
+
+- (instancetype)init
+{
+    if (self = [super init]) {
+        _theAsyncView = [TestView new];
+    }
+    return self;
+}
+
+- (instancetype)initWithDefaultView
+{
+    if (self = [self init]) {
+        _theAsyncView = nil;
+    }
+    return self;
+}
+
+- (void)loadView
+{
+    if (_theAsyncView) {
+        self.view = _theAsyncView;
+    }
+    else {
+        [super loadView];
+    }
+}
+
+@end
+
+@implementation TestView
+
 
 @end

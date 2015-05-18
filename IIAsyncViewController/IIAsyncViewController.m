@@ -54,11 +54,20 @@ typedef NS_ENUM(NSUInteger, IIAsyncStatusViewState) {
 
     // get async view. This is the default view when first wrapping.
     UIView<IIAsyncView> *asyncView = (UIView<IIAsyncView>*)self.view;
-    NSAssert([asyncView conformsToProtocol:@protocol(IIAsyncView)], @"[%@ view] should provide a view confirming to IIAsyncView (currently: %@).", self.class, self.view.class);
+    if (![asyncView conformsToProtocol:@protocol(IIAsyncView)]) {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                       reason:[NSString stringWithFormat:@"[%@ view] should provide a view confirming to IIAsyncView (currently: %@).", self.class, self.view.class]
+                                     userInfo:nil];
+    }
     
     // now create the status view
     UIView<IIAsyncStatusView> *statusView = [self loadStatusView];
-    NSAssert([statusView conformsToProtocol:@protocol(IIAsyncStatusView)], @"[%@ loadStatusView] should provide a view confirming to IIAsyncStatusView.", self.class);
+    if (![statusView conformsToProtocol:@protocol(IIAsyncStatusView)]) {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                       reason:[NSString stringWithFormat:@"[%@ loadStatusView] should provide a view confirming to IIAsyncStatusView.", self.class]
+                                     userInfo:nil];
+    }
+
     statusView.frame = asyncView.frame;
     statusView.asyncView = asyncView;
     asyncView.asyncData.asyncDataDelegate = self;
