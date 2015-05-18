@@ -22,11 +22,22 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qpY-58-jBX">
+                                <rect key="frame" x="289" y="510" width="46" height="30"/>
+                                <state key="normal" title="Reload">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="reload:" destination="8bC-Xf-vdC" eventType="touchUpInside" id="8Zm-gc-dFm"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="qpY-58-jBX" secondAttribute="bottom" constant="10" id="Z94-9t-QFd"/>
                             <constraint firstAttribute="centerY" secondItem="7Ye-ID-EY2" secondAttribute="centerY" id="jD8-W1-d9W"/>
                             <constraint firstAttribute="centerX" secondItem="7Ye-ID-EY2" secondAttribute="centerX" id="qG2-VJ-aOj"/>
+                            <constraint firstAttribute="centerX" secondItem="qpY-58-jBX" secondAttribute="centerX" id="vWX-WB-G7S"/>
                         </constraints>
                         <connections>
                             <outlet property="label" destination="7Ye-ID-EY2" id="mK6-eU-JXZ"/>

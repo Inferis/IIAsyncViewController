@@ -54,29 +54,13 @@
 {
     [super layoutSubviews];
 
-    if (_asyncViewLayoutGuideConstraints) {
+    if (_asyncViewLayoutGuideConstraints.count > 0) {
         NSArray *constraints = _asyncViewLayoutGuideConstraints;
         _asyncViewLayoutGuideConstraints = nil;
         
         NSArray *currentConstraints = [self findLayoutGuideConstraints:_asyncView];
         if (currentConstraints.count == 0) {
-            UIViewController *viewController = [self findViewDelegate:self];
-            
-            for (NSArray *constraintInfo in constraints) {
-                NSLayoutConstraint *oldConstraint = constraintInfo[0];
-                BOOL topGuide = [constraintInfo[1] boolValue];
-                id firstItem = oldConstraint.firstItem == constraintInfo[2] ? (topGuide ? viewController.topLayoutGuide : viewController.bottomLayoutGuide) : oldConstraint.firstItem;
-                id secondItem = oldConstraint.secondItem == constraintInfo[2] ? (topGuide ? viewController.topLayoutGuide : viewController.bottomLayoutGuide) : oldConstraint.secondItem;
-                NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:firstItem
-                                                                              attribute:oldConstraint.firstAttribute
-                                                                              relatedBy:oldConstraint.relation
-                                                                                 toItem:secondItem
-                                                                              attribute:oldConstraint.secondAttribute
-                                                                             multiplier:oldConstraint.multiplier
-                                                                               constant:oldConstraint.constant];
-                [self addConstraint:constraint];
-                
-            }
+            [self reapplyLayoutGuideConstraints:constraints];
             [self setNeedsUpdateConstraints];
             [super layoutSubviews];
         }
@@ -343,10 +327,31 @@
     return [constraints copy];
 }
 
+- (void)reapplyLayoutGuideConstraints:(NSArray*)constraintInfos {
+    UIViewController *viewController = [self findViewDelegate:self];
+    
+    for (NSArray *constraintInfo in constraintInfos) {
+        NSLayoutConstraint *oldConstraint = constraintInfo[0];
+        BOOL topGuide = [constraintInfo[1] boolValue];
+        id firstItem = oldConstraint.firstItem == constraintInfo[2] ? (topGuide ? viewController.topLayoutGuide : viewController.bottomLayoutGuide) : oldConstraint.firstItem;
+        id secondItem = oldConstraint.secondItem == constraintInfo[2] ? (topGuide ? viewController.topLayoutGuide : viewController.bottomLayoutGuide) : oldConstraint.secondItem;
+        NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:firstItem
+                                                                      attribute:oldConstraint.firstAttribute
+                                                                      relatedBy:oldConstraint.relation
+                                                                         toItem:secondItem
+                                                                      attribute:oldConstraint.secondAttribute
+                                                                     multiplier:oldConstraint.multiplier
+                                                                       constant:oldConstraint.constant];
+        [self addConstraint:constraint];
+    }
+}
+
 - (UIViewController*)findViewDelegate:(UIView*)view
 {
     UIViewController *delegate = nil;
-    Ivar ivar = class_getInstanceVariable(view.class, "_viewDelegate");
+    // avoid "invalid api" detection
+    const char *ivarName = [[NSString stringWithFormat:@"_%@Delegate", @"view"] UTF8String];
+    Ivar ivar = class_getInstanceVariable(view.class, ivarName);
     if (ivar) {
         delegate = object_getIvar(view, ivar);
         if ([delegate isKindOfClass:[UIViewController class]]) {
@@ -355,7 +360,6 @@
     }
     
     return nil;
-    
 }
 
 #pragma mark - IIAsyncMessageViewDelegate

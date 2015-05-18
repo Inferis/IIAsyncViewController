@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		E251AA2F1A0A33FA00BF629E /* DemoView.m in Sources */ = {isa = PBXBuildFile; fileRef = E251AA2E1A0A33FA00BF629E /* DemoView.m */; };
 		E251AA321A0A40DA00BF629E /* IIAsyncMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = E251AA311A0A40DA00BF629E /* IIAsyncMessageView.m */; };
+		E27C50931B09F5D5002ED04E /* LaggyBackend.m in Sources */ = {isa = PBXBuildFile; fileRef = E27C50921B09F5D5002ED04E /* LaggyBackend.m */; };
+		E27C509B1B09FA00002ED04E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E27C50991B09FA00002ED04E /* Localizable.strings */; };
 		E29C223A1A09B0AD0049A1C0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E29C22391A09B0AD0049A1C0 /* main.m */; };
 		E29C223D1A09B0AD0049A1C0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E29C223C1A09B0AD0049A1C0 /* AppDelegate.m */; };
 		E29C22401A09B0AD0049A1C0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E29C223F1A09B0AD0049A1C0 /* ViewController.m */; };
@@ -42,6 +44,9 @@
 		E251AA301A0A40DA00BF629E /* IIAsyncMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIAsyncMessageView.h; sourceTree = "<group>"; };
 		E251AA311A0A40DA00BF629E /* IIAsyncMessageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIAsyncMessageView.m; sourceTree = "<group>"; };
 		E251AA341A0CD49E00BF629E /* IIAsyncViewInternals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIAsyncViewInternals.h; sourceTree = "<group>"; };
+		E27C50911B09F5D5002ED04E /* LaggyBackend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaggyBackend.h; sourceTree = "<group>"; };
+		E27C50921B09F5D5002ED04E /* LaggyBackend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaggyBackend.m; sourceTree = "<group>"; };
+		E27C509A1B09FA00002ED04E /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E29C22341A09B0AD0049A1C0 /* IIAsyncViewControllerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IIAsyncViewControllerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E29C22381A09B0AD0049A1C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E29C22391A09B0AD0049A1C0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -144,6 +149,8 @@
 				E29C22371A09B0AD0049A1C0 /* Supporting Files */,
 				E251AA2D1A0A33FA00BF629E /* DemoView.h */,
 				E251AA2E1A0A33FA00BF629E /* DemoView.m */,
+				E27C50911B09F5D5002ED04E /* LaggyBackend.h */,
+				E27C50921B09F5D5002ED04E /* LaggyBackend.m */,
 			);
 			path = IIAsyncViewControllerDemo;
 			sourceTree = "<group>";
@@ -151,6 +158,7 @@
 		E29C22371A09B0AD0049A1C0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E27C50991B09FA00002ED04E /* Localizable.strings */,
 				E29C22381A09B0AD0049A1C0 /* Info.plist */,
 				E29C22391A09B0AD0049A1C0 /* main.m */,
 			);
@@ -285,6 +293,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E29C22431A09B0AD0049A1C0 /* Main.storyboard in Resources */,
+				E27C509B1B09FA00002ED04E /* Localizable.strings in Resources */,
 				E29C22481A09B0AD0049A1C0 /* LaunchScreen.xib in Resources */,
 				E29C22451A09B0AD0049A1C0 /* Images.xcassets in Resources */,
 			);
@@ -342,6 +351,7 @@
 				E2FAAC901B0891C900CBFFB1 /* IIAsyncData.m in Sources */,
 				E29C22611A09B10E0049A1C0 /* IIAsyncViewController.m in Sources */,
 				E29C223D1A09B0AD0049A1C0 /* AppDelegate.m in Sources */,
+				E27C50931B09F5D5002ED04E /* LaggyBackend.m in Sources */,
 				E29C223A1A09B0AD0049A1C0 /* main.m in Sources */,
 				E29C22691A09B60C0049A1C0 /* IIAsyncView.m in Sources */,
 				E29C226C1A09B65B0049A1C0 /* IIAsyncStatusView.m in Sources */,
@@ -368,6 +378,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		E27C50991B09FA00002ED04E /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E27C509A1B09FA00002ED04E /* Base */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		E29C22411A09B0AD0049A1C0 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

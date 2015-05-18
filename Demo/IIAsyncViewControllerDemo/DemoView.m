@@ -15,19 +15,18 @@
     
 }
 
-- (void)awakeFromNib
-{
-    [super awakeFromNib];
-}
-
 - (void)asyncDataApplyValueAnimated:(BOOL)animated
 {
-    self.label.attributedText = self.asyncData.value;
+    self.label.text = [NSString stringWithFormat:@"We got: \"%@\"", self.asyncData.value];
 }
 
 - (BOOL)asyncCanReload
 {
     return self.asyncData.error != nil;
+}
+
+- (IBAction)reload:(id)sender {
+    [self.asyncData.asyncDataDelegate reloadAsyncData];
 }
 
 
