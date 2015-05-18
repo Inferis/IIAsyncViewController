@@ -60,6 +60,23 @@ describe(@"when accessing the controller's view", ^{
             OCMStub([controller loadStatusView]).andReturn(view);
             expect(^{ [controller view]; }).to.raise(NSInternalInconsistencyException);
         });
+        
+        it(@"should set the status view as root view", ^{
+            TestViewController *controller = OCMPartialMock([TestViewController new]);
+            expect([controller view]).to.equal([controller statusView]);
+        });
+        
+        it(@"should wrap the async view in the status view", ^{
+            TestViewController *controller = OCMPartialMock([TestViewController new]);
+            expect([controller asyncView].superview).to.equal([controller statusView]);
+        });
+
+        it(@"should invoke performRequestAsyncData", ^{
+            TestViewController *controller = OCMPartialMock([TestViewController new]);
+            OCMExpect([controller performAsyncDataRequest]);
+            [controller view];
+            OCMVerifyAll((id)controller);
+        });
     });
 });
 
