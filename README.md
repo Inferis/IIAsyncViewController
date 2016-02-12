@@ -23,7 +23,7 @@ Classes and protocols are documented enough to get you started, I think.
 
 They aren't there. Will be, but not now. Too tired, my friend.
 
-## Cocoapods
+## CocoaPods
 
 IIAsyncViewController is available as a CocoaPod. Add the following line to your Podfile:
 
